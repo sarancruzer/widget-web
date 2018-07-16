@@ -3,9 +3,11 @@
     window.widgetParameters = getWidgetParameters();
 
     if(typeof window.angular === 'undefined'){
-        var angularJS = getAngularJS();
-        document.getElementsByTagName("head")[0].appendChild(angularJS);
 
+        var angularJS = getAngularJS();
+        document.getElementsByTagName("head")[0].appendChild(angularJS);        
+
+        
         if(angularJS.complete){
             document.write = document._write;
         }else{
@@ -14,10 +16,43 @@
                     document.write = document._write;
                 }, 0);
                 main();
+
+                var style = getStyles();
+                document.getElementsByTagName("head")[0].appendChild(style);
+        
+                var Runtime = getRuntime();
+                document.getElementsByTagName("head")[0].appendChild(Runtime);
+        
+                var polyfills = getpolyfills();
+                document.getElementsByTagName("head")[0].appendChild(polyfills);
+        
+                var script = getScript();
+                document.getElementsByTagName("head")[0].appendChild(script);
+        
+                var mainScript = getMainScript();
+                document.getElementsByTagName("head")[0].appendChild(mainScript);
+
             }
         }
     }else{
+
         main();
+
+        // var bootstrapCSS = getBootstrapCSS();
+        // document.getElementsByTagName("head")[0].appendChild(bootstrapCSS);
+
+        // var styleCSS = getStyleCSS();
+        // document.getElementsByTagName("head")[0].appendChild(styleCSS);
+
+        // var jqueryJS = getJqueryJS();
+        // document.getElementsByTagName("head")[0].appendChild(jqueryJS);
+
+        // var bootstrapJS = getBootstrapJS();
+        // document.getElementsByTagName("head")[0].appendChild(bootstrapJS);
+
+        // var customJS = getCustomScriptJS();
+        // document.getElementsByTagName("head")[0].appendChild(customJS);
+
     }
 
     function getWidgetParameters() {
@@ -45,13 +80,104 @@
         return script;
     }
 
+   
+    
+    // function getStyles() {
+    //     var link = document.createElement("link");
+    //     link.rel  = 'stylesheet';
+    //     link.type = 'text/css';
+    //     link.href = "../angular/widget/dist/widget/styles.css";
+    //     return link;
+    // }
+
+    
+    // function getRuntime() {
+    //     var script = document.createElement("script");
+    //     script.type = "text/javascript";
+    //     script.src = "../angular/widget/dist/widget/runtime.a66f828dca56eeb90e02.js";
+    //     return script;
+    // }
+
+
+    // function getpolyfills() {
+    //     var script = document.createElement("script");
+    //     script.type = "text/javascript";
+    //     script.src = "../angular/widget/dist/widget/polyfills.7a0e6866a34e280f48e7.js";
+        
+    //     return script;
+    // }
+
+    // function getScript() {
+    //     var script = document.createElement("script");
+    //     script.type = "text/javascript";
+    //     script.src = "../angular/widget/dist/widget/scripts.30e5019b0786e917a43c.js";
+    //     return script;
+    // }
+
+    // function getMainScript() {
+    //     var script = document.createElement("script");
+    //     script.type = "text/javascript";
+    //     script.src = "../angular/widget/dist/widget/main.64a7110cf33f2b7036ee.js";
+    //     return script;
+    // }
+
+
+    
+    
+    function getStyles() {
+        var link = document.createElement("link");
+        link.rel  = 'stylesheet';
+        link.type = 'text/css';
+        link.href = "widget/styles.css"
+        return link;
+    }
+
+    
+    function getRuntime() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "widget/runtime.a66f828dca56eeb90e02.js";
+        return script;
+    }
+
+
+    function getpolyfills() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "widget/polyfills.7a0e6866a34e280f48e7.js";
+        
+        return script;
+    }
+
+    function getScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "widget/scripts.30e5019b0786e917a43c.js";
+        return script;
+    }
+
+    function getMainScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "widget/main.64a7110cf33f2b7036ee.js";
+        return script;
+    }
+
+    
+
     function main() {
+       
+
         buildWidgetHtml(function(){
             var widgetJS = document.createElement("script");
             widgetJS.type = "text/javascript";
-            widgetJS.src = "http://findeck.es/widgetGithubRepos.js"; //widgetURL
+            widgetJS.src = "http://localhost/widgetcheck/widgetGithubRepos.js"; //widgetURL
+
+            
             (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(widgetJS);
         });
+
+
     }
 
     function buildWidgetHtml(callback) {
@@ -61,15 +187,21 @@
         appDiv.setAttribute("id", "MainCtrl");
         widgetContainer.appendChild(appDiv);
         loadTemplate(callback);
+        
     }
 
     function loadTemplate(callback) {
+
+        
         var ajax = new XMLHttpRequest();
-		ajax.open("GET","http://findeck.es/getWidgetTemplate.php");
+		ajax.open("GET","http://localhost/widgetcheck/widget/index.html");
 		ajax.send();
 		ajax.onreadystatechange=function(){
 			if(ajax.readyState == 4 && ajax.status == 200){
-				var response = ajax.responseText;
+                var response = ajax.responseText;
+                
+                console.log("response");
+                console.log(response);
 				document.getElementById("MainCtrl").innerHTML = response;
                 callback();
 			}

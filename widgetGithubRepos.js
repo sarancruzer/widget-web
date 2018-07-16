@@ -33,6 +33,11 @@ function mainCtrl($scope, $http){
             }
         }
     }
+
+
+    $scope.go = function() {        
+        console.log("clickced");
+      }
 }
 
 angular.element(document).ready(function() {
